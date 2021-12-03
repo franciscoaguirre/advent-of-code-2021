@@ -1,5 +1,5 @@
 pub fn solve(depths: &[u32]) -> u32 {
-    let first_three_depths = depths.iter().take(3).sum();
+    let first_three_depths = depths[0..3].iter().sum();
 
     depths[1..]
         .windows(3)
