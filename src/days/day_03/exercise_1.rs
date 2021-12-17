@@ -1,7 +1,8 @@
 use std::{collections::HashMap, hash::Hash};
 
 pub fn solve(report: &[Vec<char>]) -> u32 {
-    let gamma_rate_binary = report
+    let transposed_report = transpose(report);
+    let gamma_rate_binary = transposed_report
         .iter()
         .map(|digits| get_mode(digits))
         .collect::<String>();
@@ -13,6 +14,19 @@ pub fn solve(report: &[Vec<char>]) -> u32 {
     let epsilon_rate = u32::from_str_radix(&epsilon_rate_binary, 2).unwrap();
 
     gamma_rate * epsilon_rate
+}
+
+fn transpose<T: Clone>(v: &[Vec<T>]) -> Vec<Vec<T>> {
+    let len = v[0].len();
+    let mut iters: Vec<_> = v.iter().cloned().map(|n| n.into_iter()).collect();
+    (0..len)
+        .map(|_| {
+            iters
+                .iter_mut()
+                .map(|n| n.next().unwrap())
+                .collect::<Vec<T>>()
+        })
+        .collect()
 }
 
 fn get_mode<T: Hash + Eq + Copy>(values: &[T]) -> T {
